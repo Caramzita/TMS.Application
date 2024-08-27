@@ -33,12 +33,6 @@ services:
       POSTGRES_PASSWORD: "291203"
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d db"]
-      interval: 10s
-      retries: 5
-      start_period: 30s
-      timeout: 10s
     ports:
       - "5432:5432"
     restart: always
@@ -48,6 +42,8 @@ services:
     container_name: Consul
     ports:
       - '8500:8500'
+    volumes:
+      - 'consul-data:/consul/data'
     restart: always
 
   baget:
@@ -55,8 +51,6 @@ services:
     container_name: Baget
     ports:
       - "5000:80"
-    volumes:
-      - ./data:/var/baget
     restart: always
 
   notes.service:
@@ -69,7 +63,7 @@ services:
       - postgres
     environment:
       - ASPNETCORE_ENVIRONMENT=Release
-      - ConnectionStrings__DatabaseConnection=Server=postgres;Port=5432;Database=db;User Id=postgres;Password=admin;
+      - ConnectionStrings__DatabaseConnection=Server=postgres;Port=5432;Database=db;User Id=postgres;Password=291203;
     ports:
       - "8081:8081"
     restart: always
@@ -81,15 +75,14 @@ services:
       context: TMS.Security
       dockerfile: Dockerfile
     depends_on:
-      postgres:
-        condition: service_healthy
-        restart: true
+      - postgres
     environment:
       - ASPNETCORE_ENVIRONMENT=Release
-      - ConnectionStrings__DatabaseConnection=Server=postgres;Port=5432;Database=db;User Id=postgres;Password=admin;
+      - ConnectionStrings__DatabaseConnection=Server=postgres;Port=5432;Database=db;User Id=postgres;Password=291203;
     ports:
       - "8082:8082"
     restart: always
 
 volumes:
   postgres-data:
+  consul-data:

@@ -30,7 +30,7 @@ services:
     environment:
       POSTGRES_DB: "db"
       POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "291203"
+      POSTGRES_PASSWORD: "admin"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:
@@ -63,7 +63,7 @@ services:
       - postgres
     environment:
       - ASPNETCORE_ENVIRONMENT=Release
-      - ConnectionStrings__DatabaseConnection=Server=postgres;Port=5432;Database=db;User Id=postgres;Password=291203;
+      - ConnectionStrings__DatabaseConnection=Server=postgres;Port=5432;Database=db;User Id=postgres;Password=admin;
     ports:
       - "8081:8081"
     restart: always
@@ -78,7 +78,7 @@ services:
       - postgres
     environment:
       - ASPNETCORE_ENVIRONMENT=Release
-      - ConnectionStrings__DatabaseConnection=Server=postgres;Port=5432;Database=db;User Id=postgres;Password=291203;
+      - ConnectionStrings__DatabaseConnection=Server=postgres;Port=5432;Database=db;User Id=postgres;Password=admin;
     ports:
       - "8082:8082"
     restart: always

@@ -19,8 +19,10 @@ public static class AuthenticationHelper
     /// <param name="services"> Коллекция сервисов для настройки. </param>
     /// <param name="jwtSettings"> Настройки JWT, такие как секретный ключ, издатель, и аудитория. </param>
     /// <returns> Обновленная коллекция сервисов. </returns>
-    public static IServiceCollection AddJwtBearerAuthentication(this IServiceCollection services, JwtTokenSettings jwtSettings)
+    public static IServiceCollection AddJwtBearerAuthentication(this IServiceCollection services)
     {
+        var jwtSettings = services.BuildServiceProvider().GetRequiredService<IOptions<JwtTokenSettings>>().Value;
+
         services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
